@@ -2,9 +2,9 @@ import spotipy
 import requests
 import json
 from spotipy.oauth2 import SpotifyOAuth
-client_id = '4fe94719ff284848b501b361e38512d5'
-client_secret = 'a697afc8c97f441abdf1c108f6b9c229'
-redirect_uri = 'http://localhost:3000'
+client_id = '14ecafe25d67441690c29c28c507ebdd'
+client_secret = '1432bcdbf5ad47f99c23d6bd6582c3c4'
+redirect_uri = 'http://localhost:8888/callback'
 
 
 
@@ -15,7 +15,7 @@ session.headers["User-Agent"] = "Your User Agent"  # Specify your user agent
 session.headers["Accept-Language"] = "en-US"  # Specify your preferred language
 session.headers["Accept-Encoding"] = "gzip, deflate, br"  # Specify your preferred encoding
 session.headers["Accept"] = "application/json"  # Specify your preferred response format
-session.timeout = 100  # Set the read timeout to 10 seconds
+session.timeout = 10900000  # Set the read timeout to 10 seconds
 
 # Initialize Spotify client with custom session
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
@@ -63,8 +63,9 @@ def search_saved_tracks_by_artist(artists):
             else:
                 offset += limit
 
-        # Add the selected tracks to the playlist
-        sp.playlist_add_items(playlist["id"], track_ID)
+        batch_size = 100  # Set the batch size
+        for i in range(0, len(track_ID), batch_size):
+            sp.playlist_add_items(playlist["id"], track_ID[i:i+batch_size])
 
 search_saved_tracks_by_artist(['$uicideboy$'])  # Replace 'artist1', 'artist2', 'artist3' with the desired artist names
 
