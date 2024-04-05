@@ -1,0 +1,4 @@
+Add more user funcionality, like inputs and instructions.
+Need to make a script that allows users to add certain genres, artists, or songs to an already existing playlist.
+4/4/2024:
+Hit a rate limiter, need to let it cool down and then try again.
